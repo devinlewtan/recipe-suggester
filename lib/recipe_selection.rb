@@ -1,5 +1,10 @@
-require "recipe_selection/version"
+require_relative "./recipe_selection/version"
+require_relative "./recipe_selection/scraper"
+require_relative "./recipe_selection/cli"
 
-module RecipeSelection
-  # Your code goes here...
-end
+require 'nokogiri'
+require 'pry'
+require 'open-uri'
+require 'watir'
+require 'selenium-webdriver'
+require 'chromedriver'
