@@ -2,8 +2,8 @@ class RecipeSelection::CLI
 
   	def call
   		welcome
-  		list_recipe
-  		options
+  		RecipeSelection::Scraper.scrape
+  		#RecipeSelection::Scraper.scrape_recipe
   	end
   	
   	def welcome
