@@ -3,7 +3,6 @@ class RecipeSelection::CLI
   	def call
   		welcome
   		RecipeSelection::Scraper.scrape
-  		#RecipeSelection::Scraper.scrape_recipe
   	end
   	
   	def welcome

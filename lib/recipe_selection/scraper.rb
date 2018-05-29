@@ -1,4 +1,5 @@
 require_relative './version'
+require_relative './recipe'
 
 require 'watir'
 require 'selenium-webdriver'
@@ -6,7 +7,7 @@ require 'selenium-webdriver'
 
 class RecipeSelection::Scraper
   	@@browser = Watir::Browser.new :chrome, headless: true
-	@@all = []
+	@@allRecipes = []
 	
   	def self.scrape
   		url = 'https://www.hellofresh.com/recipes/quick-meals-collection'
@@ -14,28 +15,42 @@ class RecipeSelection::Scraper
 		@@browser.goto(url)
 		#convert to text page
 		@doc = Nokogiri::HTML(open(url)) 
+		#large chunk of HTML
 		@scraping_block = @doc.css("div.fela-9sirm5 div.fela-16y1plf")
 		
-		titles = []
-		@scraping_block['h3'].each do |title|
-			titles << title
-			end
-	end
-	
-	def self.scrape_recipe
-    	@scraping_block.each do |link|
-      		@@browser.goto(link.css('a.href'))
+		#individual blocks for each recipe link
+		recipes = @doc.css('div.fela-16y1plf')
+		
+		#population of recipeBook
+		recipes.each do |link| 
+			href = "https://www.hellofresh.com" + link.css('a')[0]['href']
+      		@@browser.goto(href)
+      		
    		   	#recipe title extraction
     	    @title = @@browser.title
+    	    #link.css('h3.fela-1amo4zy').text
+    	    
     	    #parse through each ingredient section --> grab description
-    	    @ingredients[] = link.css("div.fela-2fub81 fela-10v7juv div.fela-bj2f19 fela-xkmok4").text.strip
+    	    ingredients = link.css("div.fela-bj2f19 fela-xkmok4 div.fela-1nnptk7")
+    	    @allIngredients = []
+    	    
+    	    #populate ingredient array
+    	    ingredients.each do |i|
+    	    	@allIngredients << i.css(p.fela-c30jy9).text
+    	    end
+    	    
     	    #grabbing each step of instructions
-    	    @instructions = link.css("div.fela-12sjl9r div.fela-1ov7juv p").text.strip
-    	    #instantiating new recipe object
-    	    @recipe = RecipeSelection::Recipe.new(title, ingredients, instructions)
-    	    #adding to library
-    	    @@all << recipe
+    	    @instructions = link.css("div.fela-udbcg p").text
+    	    puts @instructions
+    	    
+    	    #adding recipe objects to library
+    	    r = RecipeSelection::Recipe.new(@title, @allIngredients, @instructions)
+    	    @@allRecipes.push(r)
     	end
-	  return @@all
-	end
+      return @@allRecipes
+	end	
 end
+	
+    	    #@ingredients = link.css("div.fela-2fub81 fela-10v7juv div.fela-bj2f19 fela-xkmok4").text.strip
+    	    
+    	    
