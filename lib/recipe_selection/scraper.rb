@@ -3,10 +3,13 @@ require_relative './recipe'
 
 require 'watir'
 require 'selenium-webdriver'
+require 'rubygems'
+require 'nokogiri'
+require 'open-uri'
 
 
 class RecipeSelection::Scraper
-  	@@browser = Watir::Browser.new :chrome, headless: true
+  	@@browser = Watir::Browser.new :chrome
 	@@allRecipes = []
 	
   	def self.scrape
@@ -15,37 +18,41 @@ class RecipeSelection::Scraper
 		@@browser.goto(url)
 		#convert to text page
 		@doc = Nokogiri::HTML(open(url)) 
-		#large chunk of HTML
-		@scraping_block = @doc.css("div.fela-9sirm5 div.fela-16y1plf")
 		
 		#individual blocks for each recipe link
 		recipes = @doc.css('div.fela-16y1plf')
-		
+    	    
 		#population of recipeBook
 		recipes.each do |link| 
 			href = "https://www.hellofresh.com" + link.css('a')[0]['href']
       		@@browser.goto(href)
+      		@l = Nokogiri::HTML(open(href)) 
       		
    		   	#recipe title extraction
-    	    @title = @@browser.title
-    	    #link.css('h3.fela-1amo4zy').text
-    	    
+    	    @title = @@browser.title.chomp "Recipe | HelloFresh"
+    
     	    #parse through each ingredient section --> grab description
-    	    ingredients = link.css("div.fela-bj2f19 fela-xkmok4 div.fela-1nnptk7")
+    	    ingredients = @l.css("div.fela-1nnptk7")
+    	    
     	    @allIngredients = []
     	    
     	    #populate ingredient array
     	    ingredients.each do |i|
-    	    	@allIngredients << i.css(p.fela-c30jy9).text
+    	    	temp = i.css('p')[1].text
+    	    	@allIngredients << temp
     	    end
     	    
+    	    @instructions = ''
     	    #grabbing each step of instructions
-    	    @instructions = link.css("div.fela-udbcg p").text
-    	    puts @instructions
+    	
+    	    @l.css("div.fela-udbcg p").map do |x|
+    			@instructions = @instructions + x + ' '
+    		end
     	    
     	    #adding recipe objects to library
-    	    r = RecipeSelection::Recipe.new(@title, @allIngredients, @instructions)
+    	    r = RecipeSelection::Recipe.new(@title, href, @allIngredients, @instructions)
     	    @@allRecipes.push(r)
+    	    
     	end
       return @@allRecipes
 	end	
