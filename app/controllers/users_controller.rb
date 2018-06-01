@@ -8,13 +8,22 @@ class UsersController < ApplicationController
   end
   
   def create
-  @user = User.new(params[:user])   
+  #initialize new User object with appropriate parameters
+  @user = User.new(user_params)
+  	# Handle a successful save.
     if @user.save
-      # Handle a successful save.
+    	#go to user page
+    	redirect_to user_url(@user) 
     else
     #page dispaying errors
       render 'new'
     end
   end
+  
+  #clarify appropriate params
+   private
+    	def user_params
+      		params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    	end
   
 end
