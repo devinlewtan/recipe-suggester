@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
   <head>
     <title><%= yield(:title) %> | Devin Engineering Project</title>
@@ -7,20 +6,9 @@
                                               'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
+  
   <body>
-    <header class="navbar navbar-fixed-top navbar-inverse">
-      <div class="container">
-        <%= link_to "TROOPS", root_path, id: "logo" %>
-        <nav>
-          <ul class="nav navbar-nav navbar-right">
-            <li><%= link_to "Home",   root_path %></li>
-            <li><%= link_to "Help",   help_path %></li>
-            <li><%= link_to "Log in", login_path %></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+  <%= render "layouts/header" %>
     <div class="container">
       <%= yield %>
       <%= debug(params) if Rails.env.development? %>
