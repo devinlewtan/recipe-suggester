@@ -26,7 +26,6 @@ class RecipeSelection::Scraper
 		recipes.each do |link| 
 			href = "https://www.hellofresh.com" + link.css('a')[0]['href']
       		@@browser.goto(href)
-      		#convert new link to text page
       		@l = Nokogiri::HTML(open(href)) 
       		
    		   	#recipe title extraction
