@@ -13,39 +13,42 @@ class RecipeSelection::Scraper
 	@@allRecipes = []
 	
   	def self.scrape
-  		url = 'https://www.hellofresh.com/recipes/quick-meals-collection'
+  		url = 'http://www.geniuskitchen.com/recipe/all/quick-and-easy'
   		#starting page
 		@@browser.goto(url)
 		#convert to text page
-		@doc = Nokogiri::HTML(open(url)) 
-		
+		@doc2 = Nokogiri::HTML(open(url)) 
+
 		#individual blocks for each recipe link
-		recipes = @doc.css('div.fela-vdap0b')
-	
+		recipes = @doc2.css('div.fd-inner-tile')
+		
+
 		#population of recipeBook
 		recipes.each do |link| 
-			href = "https://www.hellofresh.com" + link.css('a')[0]['href']
+			href = "http://www.geniuskitchen.com" + link.css('a')[0]['href']
+			puts "hi"
       		@@browser.goto(href)
       		@l = Nokogiri::HTML(open(href)) 
-      		
    		   	#recipe title extraction
-    	    @title = @@browser.title.chomp "Recipe | HelloFresh"
+    	    @title = @@browser.title
     
     	    #parse through each ingredient section --> grab description
-    	    ingredients = @l.css("div.fela-1nnptk7")
+    	    ingredients = @l.css("ul.ingredient-list li")
     	    
     	    @allIngredients = []
     	    
     	    #populate ingredient array
     	    ingredients.each do |i|
-    	    	temp = i.css('p')[1].text
+    	    	qty = i.css(span.qty).text
+    	    	food = i.css(span.food a).text
+    	    	temp = RecipeSelection::Ingredient.new(qty, food)
     	    	@allIngredients << temp
     	    end
     	    
     	    @instructions = ''
     	    #grabbing each step of instructions
     	
-    	    @l.css("div.fela-1qsq4x8 p").map do |x|
+    	    @l.css("ol.expanded li").each do |x|
     			@instructions = @instructions + x + ' '
     		end
     	    
@@ -57,3 +60,6 @@ class RecipeSelection::Scraper
       return @@allRecipes
 	end	
 end
+
+
+

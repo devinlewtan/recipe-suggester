@@ -10,6 +10,8 @@ class RecipeSelection::Recipe
    @instructions = instructions
   end
 end
+<<<<<<< HEAD
+=======
   
   #def self.display_recipe
    # @@all.each.with_index(1) do |recipe, i|
@@ -21,4 +23,5 @@ end
    #index = input.to_i - 1
    # puts "#{@@all[index].ingredients}"
  # end
+>>>>>>> f241105bb07d779c9ec92ec94cb15a8566a5d4b1
   
