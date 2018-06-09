@@ -1,0 +1,2 @@
+module UserIngredientHelper
+end

@@ -1,0 +1,9 @@
+<div class="col-md-8">
+    <% if @user.user_ingredients.any? %>
+      <h3>Ingredients (<%= @user.user_ingredients.count %>)</h3>
+      <ol class="user_ingredients">
+        <%= render @user_ingredients %>
+      </ol>
+      <%= will_paginate @user_ingredients %>
+    <% end %>
+  </div>

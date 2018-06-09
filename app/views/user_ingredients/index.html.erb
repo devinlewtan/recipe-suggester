@@ -1,0 +1,29 @@
+
+<h1>My fridge</h1>
+ 
+  <div class="row">
+    <aside class="col-md-4">
+      <section class="new_user_ingredient_form">
+        <%= render 'user_ingredient_form' %>
+      </section>
+    </aside>
+  </div>
+
+<div class = "ingredients">  
+<table>
+  <tr>
+    <th>Food</th>
+    <th>Quantity</th>
+    <th></th>
+  </tr>
+ 
+  <% @user_ingredients.each do |i| %>
+    <tr>
+      <td><%= i.food %></td>
+      <td><%= i.qty %></td>
+        <td><%= link_to "Edit", edit_user_ingredient_path(i) %></td>
+        <td><%= link_to "Destroy", i, method: :delete, data: { confirm: "Are you sure?" } %></td>
+    </tr>
+  <% end %>
+</table>
+</div>

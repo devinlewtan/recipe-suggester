@@ -10,6 +10,10 @@ Rails.application.routes.draw do
   get    '/login',   to: 'sessions#new'
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
+  get '/fridge', to: 'user_ingredients#index'
+  #get '/fridge/new', to: 'user_ingredients#new'
+  #get '/fridge/new', to: 'user_ingredients#create'
   
   resources :users
+  resources :user_ingredients,  only: [:index, :create, :edit, :update, :destroy]
 end
