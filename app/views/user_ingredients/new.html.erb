@@ -1,11 +1,13 @@
 <% provide(:title, 'New ingredient') %>
+<div class="col-md-4">
 <h1>New Ingredient</h1>
 <%= form_for(@user_ingredient) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
   	<%= f.label :food %>
-    <%= f.string :food, class: 'form-control' %>
-    <%= f.label :qty %>
-    <%= f.integer :qty, class: 'form-control' %>
+    <%= f.text_field :food, class: 'form-control' %>
+    <%= f.label :quantity %>
+    <%= f.number_field :qty, class: 'form-control' %>
 
   <%= f.submit "Create", class: "btn btn-primary" %>
 <% end %>
+</div>

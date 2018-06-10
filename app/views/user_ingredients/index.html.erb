@@ -1,14 +1,9 @@
-
 <h1>My Fridge</h1>
  
   <div class="row">
-    <aside class="col-md-4">
-      <section class="new_user_ingredient_form">
-        <%= render 'user_ingredient_form' %>
-      </section>
-    </aside>
+      <button type="button" class="btn btn-default"><%= link_to " + New Ingredient", new_user_ingredient_path %></button>
 
- <div class="col-md-8">
+ <div class="col-md-12">
       <h3>Ingredients (<%= @user_ingredients.count %>)</h3>
       <ol class="user_ingredients">
         <%= render @user_ingredients %>
