@@ -1,0 +1,10 @@
+<li id="user_ingredient-<%= user_ingredient.id %>">
+   <span class="food"><%= user_ingredient.food%> (<span class="qty"><%= user_ingredient.qty %>)</span>
+   
+   <span class="actions">
+   <div class="btn-group btn-group-sm">
+    <button type="button" class="btn btn-default"><%= link_to "Modify", edit_user_ingredient_path(user_ingredient) %></button>
+    <button type="button" class="btn btn-danger"><%= link_to "Remove", user_ingredient, method: :delete, data: { confirm: "Are you sure?" } %></button>
+  </div>
+   </span>
+</li>

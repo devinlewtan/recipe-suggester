@@ -17,10 +17,6 @@ class UserIngredientsController < ApplicationController
     	end
     
 	end
-	
-	#def show
-    #	@user_ingredient = UserIngredient.find(params[:id])
-  	#end
  
 	def new
 		@user_ingredient = UserIngredient.new
@@ -42,6 +38,10 @@ class UserIngredientsController < ApplicationController
   	end
 
   	def destroy
+  		@user_ingredient = UserIngredient.find(params[:id])
+  		@user_ingredient.destroy
+    	flash[:success] = "Micropost deleted"
+    	redirect_to user_ingredients_url
   	end
   	
   	

@@ -15,5 +15,5 @@ Rails.application.routes.draw do
   #get '/fridge/new', to: 'user_ingredients#create'
   
   resources :users
-  resources :user_ingredients,  only: [:index, :create, :edit, :update, :destroy]
+  resources :user_ingredients
 end
