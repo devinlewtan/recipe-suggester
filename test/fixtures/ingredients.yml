@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  qty: MyString
   food: MyString
-  user: one
+  qty: 1
+  recipe: one
 
 two:
-  qty: MyString
   food: MyString
-  user: two
+  qty: 1
+  recipe: two
