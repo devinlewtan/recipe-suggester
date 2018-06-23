@@ -2,7 +2,7 @@ class CreateUserIngredients < ActiveRecord::Migration[5.1]
   def change
     create_table :user_ingredients do |t|
       t.integer :qty
-      t.string :food
+      t.string :title
       t.references :user, foreign_key: true
 
       t.timestamps

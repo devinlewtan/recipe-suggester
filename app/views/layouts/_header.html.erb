@@ -5,7 +5,7 @@
       <ul class="nav navbar-nav navbar-right">
         <% if logged_in? %>
         	<li><%= link_to "Fridge", fridge_path %></li>
-        	<li><%= link_to "Recipes", '#' %></li>
+        	<li><%= link_to "Recipes", recipes_path %></li>
 			<li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               Account <b class="caret"></b>
@@ -18,12 +18,12 @@
               </li>
             </ul>
           </li>
-          
+
         <% else %>
         	<li><%= link_to "Home",  root_path %></li>
 			<li><%= link_to "Login", login_path %></li>
 		<% end %>
-    
+
       </ul>
     </nav>
   </div>
