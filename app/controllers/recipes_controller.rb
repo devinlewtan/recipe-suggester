@@ -10,9 +10,17 @@ class RecipesController < ApplicationController
 
 	def index
 	#schedule_scraper
-	scrape 
+	schedule_scraper
+	#@recipes = Recipe.all
 	@recipes = Recipe.all
-	end
+	@id = Ingredient.find_by(params[:id])
+	@ingredients = Ingredient.create(food: @id,
+ qty: '10')
+	#@recipes.prepared_for?
+	#set_cookies
+	Recipe.connection
+	#@cookies =  Recipe.display_ingreds
+  end
 
 	def new
 	@recipe = Recipe.new
@@ -33,8 +41,14 @@ class RecipesController < ApplicationController
  	private
 	def recipe_params
      	params.require(:recipe).permit(:title, :link, :instructions)
-    end
 
+			#@recipe_params = {
+	    #title: 'test', ingredients_attributes: [
+	     # { food: 'Kari, the awesome Ruby documentation browser!' },
+	     # { qty: '10' }
+	   # ]
+	 # }
+end
 	def schedule_scraper
 		scheduler = Rufus::Scheduler.new
 		scheduler.every "1d" do

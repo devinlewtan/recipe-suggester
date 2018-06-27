@@ -5,12 +5,15 @@ class UserIngredientsController < ApplicationController
 	def index
 		#display all ingredients
     	@user_ingredients = UserIngredient.all
-    	@user_ingredient = current_user.user_ingredients.build if logged_in?
+    	@user_ingredient = @current_user.user_ingredients.build if logged_in?
   	end
 
 	def create
-		@user_ingredient = current_user.user_ingredients.build(user_ingredient_params)
+		@user_ingredient = @current_user.user_ingredients.build(user_ingredient_params) if logged_in?
    	 	if @user_ingredient.save
+					#store ingredients on session
+					#sessions[:avail_ingred].push(@user_ingredient)
+
       		flash[:success] = "Ingredient added!"
       		redirect_to user_ingredients_url
     	else

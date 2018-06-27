@@ -1,6 +1,10 @@
 class IngredientsController < ApplicationController
-	
+
 	def new
+	end
+
+	def index
+		@ingredients = Ingredient.all
 	end
 
 	def create

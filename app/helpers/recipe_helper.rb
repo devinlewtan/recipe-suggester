@@ -7,7 +7,18 @@ module RecipeHelper
   require 'watir'
   require 'selenium-webdriver'
 
-def prepared
+
+def prepared_for?
+  cookies[:avail_recipes] = {value: []}
+  @recipes.each do |x|
+    @id = x.id
+    @ingredients = ingredients.find_by(recipe_id: params[:id])
+    #are there left ingredients included in the recipe that are not in your fridge?
+    !(@ingredients - cookies[:avail_ingred]).empty?
+    cookies[:avail_recipes].push(x)
+    end
+    @recipes = cookies[:avail_recipes]
+  end
 end
 
 def scrape
@@ -47,14 +58,14 @@ def scrape
           else
             #parse through each ingredient section --> grab description
       	    ingredients = @l.css("div.fela-1nnptk7")
+            @ingredients = Array.new
 
             #populate ingredient array
     	       ingredients.each do |i|
     	       food = i.css('p')[1].text
              qty = i.css('p')[0].text[0]
-             Ingredient.create(recipe_id: "#{Recipe.find_by(link: "#{@href}").id}", food: "#{food}", qty: "#{qty}")
+             @ingredients << Ingredient.create(recipe_id: "#{Recipe.find_by(link: "#{@href}").id}", food: "#{food}", qty: "#{qty}")
            end
         end
     end
- end
 end
