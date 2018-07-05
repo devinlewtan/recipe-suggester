@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get  '/signup',  to: 'users#new'
   post  '/signup',  to: 'users#signup'
   get    '/login',   to: 'sessions#new'
+  post    '/login',   to: 'sessions#create'
   get    '/profile',   to: 'sessions#show'
   post   '/login',   to: 'sessions#login'
   delete '/logout',  to: 'sessions#destroy'
@@ -17,9 +18,7 @@ Rails.application.routes.draw do
   get '/recipes', to: 'recipes#index'
 
 
-  resources :users do
-    resources :user_ingredients
-end
+  resources :users
   resources :user_ingredients
   resources :recipes
 

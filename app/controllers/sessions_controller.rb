@@ -9,8 +9,6 @@ class SessionsController < ApplicationController
     	user = User.find_by(email: params[:session][:email].downcase)
 			#params[:session][:email] = given email for user
 
-			session[:current_user_id] = @user.id
-			
     	if user && user.authenticate(params[:session][:password])
 				#params[:session][:password] = given password for user
     	  # Log in the user

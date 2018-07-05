@@ -6,20 +6,16 @@ require 'rubygems'
 require 'watir'
 require 'selenium-webdriver'
 include RecipeHelper
+include UserIngredientHelper
 class RecipesController < ApplicationController
 
 	def index
 	#schedule_scraper
 	schedule_scraper
+	#prepared_for?
 	#@recipes = Recipe.all
-	@recipes = Recipe.all
-	@id = Ingredient.find_by(params[:id])
-	@ingredients = Ingredient.create(food: @id,
- qty: '10')
-	#@recipes.prepared_for?
-	#set_cookies
-	Recipe.connection
-	#@cookies =  Recipe.display_ingreds
+	@recipes = prepared_for?(current_user)
+
   end
 
 	def new
@@ -39,16 +35,11 @@ class RecipesController < ApplicationController
 
 
  	private
+
 	def recipe_params
      	params.require(:recipe).permit(:title, :link, :instructions)
+		end
 
-			#@recipe_params = {
-	    #title: 'test', ingredients_attributes: [
-	     # { food: 'Kari, the awesome Ruby documentation browser!' },
-	     # { qty: '10' }
-	   # ]
-	 # }
-end
 	def schedule_scraper
 		scheduler = Rufus::Scheduler.new
 		scheduler.every "1d" do

@@ -6,19 +6,33 @@ module RecipeHelper
   require 'rubygems'
   require 'watir'
   require 'selenium-webdriver'
+include SessionsHelper
 
+def prepared_for?(current_user)
+  puts current_user.to_json
+  recipes = Recipe.all
+  prepared_for = Array.new
 
-def prepared_for?
-  cookies[:avail_recipes] = {value: []}
-  @recipes.each do |x|
-    @id = x.id
-    @ingredients = ingredients.find_by(recipe_id: params[:id])
-    #are there left ingredients included in the recipe that are not in your fridge?
-    !(@ingredients - cookies[:avail_ingred]).empty?
-    cookies[:avail_recipes].push(x)
-    end
-    @recipes = cookies[:avail_recipes]
+  #go through each recipe
+    recipes.each do |recipe|
+      #this is to check if there are left over ingredients once all deleted
+      puts recipe.title
+      temp = recipe.ingredients
+      #go through user ingredients
+      current_user.user_ingredients.each do |user_in|
+        #is the ingredient in the recipe?
+        if !recipe.ingredients.include?(user_in)
+        #if no --> check next ingredient
+          next
+        #if yes --> remove ingredient from temp ingredient array
+        else
+          temp.delete(user_in)
+        end
+      end
+    temp.empty?
+    prepared_for << recipe
   end
+  return prepared_for
 end
 
 def scrape
@@ -58,14 +72,15 @@ def scrape
           else
             #parse through each ingredient section --> grab description
       	    ingredients = @l.css("div.fela-1nnptk7")
-            @ingredients = Array.new
+
 
             #populate ingredient array
     	       ingredients.each do |i|
     	       food = i.css('p')[1].text
              qty = i.css('p')[0].text[0]
-             @ingredients << Ingredient.create(recipe_id: "#{Recipe.find_by(link: "#{@href}").id}", food: "#{food}", qty: "#{qty}")
+             Ingredient.create(recipe_id: "#{Recipe.find_by(link: "#{@href}").id}", food: "#{food}", qty: "#{qty}")
            end
         end
     end
+end
 end
