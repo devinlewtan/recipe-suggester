@@ -8,31 +8,40 @@ module RecipeHelper
   require 'selenium-webdriver'
 include SessionsHelper
 
-def prepared_for?(current_user)
-  puts current_user.to_json
+def prepared_for(current_user)
   recipes = Recipe.all
-  prepared_for = Array.new
+  results = Array.new
 
-  #go through each recipe
-    recipes.each do |recipe|
-      #this is to check if there are left over ingredients once all deleted
-      puts recipe.title
-      temp = recipe.ingredients
-      #go through user ingredients
-      current_user.user_ingredients.each do |user_in|
-        #is the ingredient in the recipe?
-        if !recipe.ingredients.include?(user_in)
-        #if no --> check next ingredient
-          next
-        #if yes --> remove ingredient from temp ingredient array
-        else
-          temp.delete(user_in)
-        end
-      end
-    temp.empty?
-    prepared_for << recipe
+  #create hash for user ingredients
+  user_ingredients_hash = Hash.new
+  current_user.user_ingredients.each do |ing|
+    user_ingredients_hash[ing.food] = true
   end
-  return prepared_for
+  #go through each recipe
+
+    recipes.each do |recipe|
+      matched_ingredients = Array.new
+        #go through user ingredients
+        recipe.ingredients.each do |rec_ing|
+          if user_ingredients_hash[rec_ing.food]
+            matched_ingredients.push(rec_ing.food)
+          end
+        end
+      #calculate percentage of ingredients prepared
+        if recipe.ingredients.length == 0
+          next
+        else
+          percentage = matched_ingredients.length/recipe.ingredients.length
+        end
+
+    #store data in hash for each recipe
+      recipe_hash = {recipe: recipe, percentage: percentage, ingredients: matched_ingredients}
+    #add hash to array
+      results << recipe_hash
+  end
+
+  #return first 10 w/ highest matched percentage
+  return results.sort_by{|r| r[:percentage]}.reverse.slice(0,10)
 end
 
 def scrape
@@ -68,8 +77,7 @@ def scrape
       	  #creating new recipe objects
           if Recipe.find_by(link: "#{@href}").nil?
             Recipe.create(title: "#{@title}", link: "#{@href}", instructions: "#{@instructions}")
-
-          else
+            #else
             #parse through each ingredient section --> grab description
       	    ingredients = @l.css("div.fela-1nnptk7")
 
@@ -77,10 +85,9 @@ def scrape
             #populate ingredient array
     	       ingredients.each do |i|
     	       food = i.css('p')[1].text
-             qty = i.css('p')[0].text[0]
-             Ingredient.create(recipe_id: "#{Recipe.find_by(link: "#{@href}").id}", food: "#{food}", qty: "#{qty}")
+             Ingredient.create(recipe_id: "#{Recipe.find_by(link: "#{@href}").id}", food: "#{food}")
            end
         end
     end
-end
+  end
 end

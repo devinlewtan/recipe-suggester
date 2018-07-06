@@ -14,8 +14,7 @@ class RecipesController < ApplicationController
 	schedule_scraper
 	#prepared_for?
 	#@recipes = Recipe.all
-	@recipes = prepared_for?(current_user)
-
+	@recipes = prepared_for(current_user)
   end
 
 	def new

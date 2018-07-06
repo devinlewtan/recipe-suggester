@@ -4,8 +4,6 @@
   <%= render 'shared/error_messages', object: f.object %>
   	<%= f.label :food %>
     <%= f.string :food, class: 'form-control' %>
-    <%= f.label :qty %>
-    <%= f.integer :qty, class: 'form-control' %>
-
+  
   <%= f.submit "Create", class: "btn btn-primary" %>
 <% end %>

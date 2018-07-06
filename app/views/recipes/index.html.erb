@@ -4,7 +4,11 @@
   <div class="col-md-8">
       <h3>Recipes </h3>
       <ol class="recipes">
-        <%= render @recipes %>
+        <% @recipes.each do |r| %>
+        <a href=<%= r[:recipe][:link]%>><%= r[:recipe][:title] %><br></a>
+        (<%= r[:percentage] %>% match!)
+      
+        <% end %>
       </ol>
     </div>
     <p>Scraped from <a href="https://www.hellofresh.com/recipes/quick-meals-collection">HelloFresh</a></p>
