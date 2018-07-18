@@ -14,8 +14,7 @@ ActiveRecord::Schema.define(version: 20180627024428) do
 
   create_table "ingredients", force: :cascade do |t|
     t.integer "recipe_id"
-    t.string "food"
-    t.integer "qty"
+    t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["recipe_id"], name: "index_ingredients_on_recipe_id"
@@ -30,8 +29,7 @@ ActiveRecord::Schema.define(version: 20180627024428) do
   end
 
   create_table "user_ingredients", force: :cascade do |t|
-    t.integer "qty"
-    t.string "food"
+    t.string "title"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

@@ -5,8 +5,8 @@ Rails.application.routes.draw do
   get 'recipes/new'
 
 
-  root 'static_pages#home'
-  get '/index', to: 'static_pages#home'
+  root 'sessions#index'
+  get '/index', to: 'sessions#index'
   get  '/signup',  to: 'users#new'
   post  '/signup',  to: 'users#signup'
   get    '/login',   to: 'sessions#new'

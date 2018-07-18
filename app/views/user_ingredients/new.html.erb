@@ -1,9 +1,9 @@
-<% provide(:food, 'New ingredient') %>
+<% provide(:title, 'New ingredient') %>
 <h1>New Ingredient</h1>
 <%= form_for(@user_ingredient) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
-  	<%= f.label :food %>
-    <%= f.string :food, class: 'form-control' %>
-  
+  	<%= f.label :title %>
+    <%= f.string :title, class: 'form-control' %>
+
   <%= f.submit "Create", class: "btn btn-primary" %>
 <% end %>

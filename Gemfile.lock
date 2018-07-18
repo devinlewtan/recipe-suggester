@@ -413,6 +413,10 @@ GEM
     unf_ext (0.0.7.5)
     watir (6.11.0)
       selenium-webdriver (~> 3.4, >= 3.4.1)
+    watir-scroll (0.4.0)
+      watir (>= 6.0)
+    watir-webdriver (0.9.9)
+      selenium-webdriver (>= 2.46.2)
     web-console (3.5.1)
       actionview (>= 5.0)
       activemodel (>= 5.0)
@@ -460,6 +464,8 @@ DEPENDENCIES
   tzinfo-data
   uglifier (= 3.2.0)
   watir
+  watir-scroll
+  watir-webdriver
   web-console (= 3.5.1)
   will_paginate (= 3.1.6)
 

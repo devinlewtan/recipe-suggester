@@ -21,7 +21,7 @@ class IngredientsController < ApplicationController
 	private
 
 	def ingredient_params
-    	params.require(:ingredient).permit(:qty, :food)
+    	params.require(:ingredient).permit(:qty, :title)
 	end
 
 end

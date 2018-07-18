@@ -15,7 +15,7 @@ class UserIngredientsController < ApplicationController
       		flash[:success] = "Ingredient added!"
       		redirect_to user_ingredients_url
     	else
-      		render 'static_pages/home'
+      		render 'sessions/index'
     	end
 
 	end
@@ -50,7 +50,7 @@ class UserIngredientsController < ApplicationController
   	private
 
     def user_ingredient_params
-      params.require(:user_ingredient).permit(:id, :food)
+      params.require(:user_ingredient).permit(:id, :title)
     end
 
 end

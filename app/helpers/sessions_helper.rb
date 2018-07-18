@@ -30,4 +30,6 @@ module SessionsHelper
 		#resets user to no one
     @current_user = nil
   end
+
+
 end

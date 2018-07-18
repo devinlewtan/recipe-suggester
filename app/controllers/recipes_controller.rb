@@ -11,9 +11,7 @@ class RecipesController < ApplicationController
 
 	def index
 	#schedule_scraper
-	schedule_scraper
-	#prepared_for?
-	#@recipes = Recipe.all
+	scrape
 	@recipes = prepared_for(current_user)
   end
 
@@ -28,7 +26,6 @@ class RecipesController < ApplicationController
 	def show
 	@recipe = Recipe.find(params[:id])
 	end
-
 
 
 
