@@ -1,6 +1,6 @@
 <%= form_for(@user_ingredient) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
-  	<%= f.label :title %>
+  	<%= f.label "Add to fridge:" %>
     <%= f.text_field :title, class: 'form-control' %>
 
   <%= f.submit "Create", class: "btn btn-primary" %>

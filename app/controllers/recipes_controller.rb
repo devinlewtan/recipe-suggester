@@ -10,8 +10,8 @@ include UserIngredientHelper
 class RecipesController < ApplicationController
 
 	def index
-	#schedule_scraper
-	scrape
+	schedule_scraper
+	#scrape
 	@recipes = prepared_for(current_user)
   end
 

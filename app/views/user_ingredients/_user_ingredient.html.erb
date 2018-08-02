@@ -1,9 +1,8 @@
-<li id="user_ingredient-<%= user_ingredient.id %>">
-   <span class="title"><%= user_ingredient.title%></span>
-
-   <span class="actions">
-   <div class="btn-group btn-group-sm">
-    <button type="button" class="btn btn-danger"><%= link_to "Remove", user_ingredient, method: :delete, data: { confirm: "Are you sure?" } %></button>
-  </div>
-   </span>
-</li>
+<div class="box">
+  <%= user_ingredient.title%>
+  <span class="actions">
+    <div class="btn-group btn-group-sm">
+     <button type="button" class="btn btn-danger"><%= link_to "Remove", user_ingredient, method: :delete, data: { confirm: "Are you sure?" } %></button>
+    </div>
+  </span>
+</div>

@@ -6,7 +6,7 @@ module RecipeHelper
   require 'rubygems'
   require 'watir'
   require 'selenium-webdriver'
-  require 'watir-webdriver'
+  #require 'watir-webdriver'
 
 
 def prepared_for(current_user)
@@ -37,10 +37,6 @@ def prepared_for(current_user)
           recipe_hash = {:recipe => recipe, :percentage => percentage, :ingredients => matched_ingredients}
           results << recipe_hash
         end
-
-    #add hash to array
-
-      #matched_ingredients = []
   end
 
   #return first 10 w/ highest matched percentage
@@ -53,25 +49,12 @@ def scrape
   browser = Watir::Browser.new :chrome
   #, headless: true
   url = "https://www.hellofresh.com/recipes/quick-meals-collection"
-  #convert to text page
-  doc = Nokogiri::HTML(open(url))
   #starting page on Chrome
   browser.goto(url)
-  button = browser.button(:class => ["fela-nl96pu", "fela-1vgx6i0"])
-  #popup = browser.div(class: 'ui-widget-overlay').wait_while_present
-  #:class => "dy-lb-close"
-  close = browser.div(:class => "dy-modal-container dy-act-overlay")
-  6.times do
-    if close.exists?
-        puts "hi"
-        close.flash
-        close.click
-        close.wait_while_present
-      button.click
-    else
-      button.click
-    end
-  end
+  #load more pages
+  span_pages(browser)
+  #convert to text page
+  doc = Nokogiri::HTML.parse(browser.html)
   allRecipes = Array.new
   #recipe title extraction
   title = browser.title.chomp "Recipe | HelloFresh"
@@ -83,7 +66,7 @@ def scrape
 	  href = "https://www.hellofresh.com" + link.css('a')[0]['href']
     browser.goto(href)
     l = Nokogiri::HTML(open(href))
-   	#recipe title extraction
+  	#recipe title extraction
     title = browser.title.chomp "Recipe | HelloFresh"
     instructions = ''
     #grabbing each step of instructions
@@ -92,17 +75,42 @@ def scrape
     end
 
     #creating new recipe objects
-    if Recipe.find_by(link: "#{href}").nil?
-        Recipe.create(title: "#{title}", link: "#{href}", instructions: "#{instructions}")
-    end
-        #else
-        #parse through each ingredient section --> grab description
-  	ingredients = l.css("div.fela-1nnptk7")
-    #populate ingredient array
-	  ingredients.each do |i|
-	     title = i.css('p')[1].text
-       Ingredient.create(recipe_id: "#{Recipe.find_by(link: "#{href}").id}", title: "#{title}")
+    r = Recipe.find_by(link: "#{href}")
+    if r.nil?
+        recipe = Recipe.create(title: "#{title}", link: "#{href}", instructions: "#{instructions}")
+
+        ingredients = l.css("div.fela-1nnptk7")
+        #populate ingredient array
+    	  ingredients.each do |i|
+    	     t = i.css('p')[1].text
+           #recipe.ingredients.create!
+           result = Ingredient.create!(recipe_id: "#{recipe.id}", title: "#{t}")
+           puts "The result of insert was #{result.to_json}"
+        end
     end
   end
- end
+end
+
+def span_pages(browser)
+  sleep(5)
+  #browser elements
+  load_more = browser.button(:class => ["fela-nl96pu", "fela-1vgx6i0"])
+  close_modal = browser.div(:class => "dy-lb-close")
+
+  sleep(5)
+  while !(close_modal.exists?) || !(load_more.exists?)
+    puts 'not yet loaded:'
+    puts('close modal exists:', close_modal.exists?)
+  sleep(2)
+  end
+
+  close_modal.click
+  sleep(5)
+  #span multiple pages
+  6.times do
+  sleep(2)
+  load_more.wait_until_present.click
+  sleep(2)
+  end
+end
 end

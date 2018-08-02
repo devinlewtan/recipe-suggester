@@ -20,7 +20,7 @@ gem 'rufus-scheduler'
 gem 'selenium-webdriver', '~> 3.12'
 gem 'pry'
 gem 'chromedriver-helper'
-gem 'watir-webdriver'
+#gem 'watir-webdriver'
 
 group :development, :test do
   gem 'sqlite3', '1.3.13'

@@ -2,25 +2,47 @@
   <div class="col-md-16">
   <h3>Recipes </h3>
     <ol class="recipes">
-        <% @recipes.each do |r| %>
-        <a href=<%= r[:recipe][:link]%> class="list-group-item list-group-item-action flex-column align-items-start active">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1"><%= r[:recipe][:title]%></h5>
-        </a>
-            <span class="badge badge-primary badge-pill">(<%= r[:percentage] %>% match!)</span>
-          </div>
-          <p class="mb-1">You have: <% r[:ingredients].each do |i| %>
-            <% if i == r[:ingredients].last && r[:ingredients].length > 1 %>
-              and <%= i %>
-            <% elsif r[:ingredients].length == 1 %>
-              <%= i %>
-            <% else %>
-              <%= i %>,
+      <div class="panel-group" id="accordion">
+        <% @recipes.each_with_index do |r, index| %>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapse<%= index.to_s %>"><%= r[:recipe][:title]%></a>
+            </h4>
+            <hr>
+            <div class="progress">
+              <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
+              aria-valuemin="0" aria-valuemax="100" style="width:40%">(<%= r[:percentage] %>% match!)</div>
+            </div>
+        </div>
+        <div id="collapse<%= index.to_s %>" class="accordion-body collapse in">
+            <div class="panel-body">
+              <h2>You have: <% r[:ingredients].each do |i| %>
+                <% if i == r[:ingredients].last && r[:ingredients].length > 1 %>
+                  and <%= i %>
+                <% elsif r[:ingredients].length == 1 %>
+                  <%= i %>
+                <% else %>
+                  <%= i %>,
+                <% end %>
+              <h2>
             <% end %>
+              <p>Check out this recipe <a href="<%= r[:recipe][:link] %>">here!</a></p>
+
+              <h2>Ingredients</h2>
+              <%= r[:recipe].ingredients.each_with_index do |x, index| %>
+              <%= (index + 1).to_s %>. <%= x.title %> <%= simple_format "\n" %>
+
+                <% end %>
+
+              <h2>Instructions</h2>
+              <%= r[:recipe][:instructions] %>
+
+            </div>
+        </div>
+          </div>
           <% end %>
-          </small>
-        <% end %>
-      </ol>
-    </div>
+        </div>
+      </div>
     <p>Scraped from <a href="https://www.hellofresh.com/recipes/quick-meals-collection">HelloFresh</a></p>
 </div>

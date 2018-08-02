@@ -130,22 +130,20 @@ input {
   list-style: none;
   padding: 30;
   li {
-    padding: 10px 0;
+    padding: 10px;
     border-top: 1px solid #e6e8e8;
   }
-  .qty {
-  	font-size: 1em;
-    padding-top: 0;
-  }
+
   .title {
   	font-size: 1.5em;
     display: block;
-    margin-left: 60px;
+    margin-left: auto;
   }
   .actions {
-    float: right;
-    margin-right: 0px;
-    margin-top: 0px;
+
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
   }
   .center-block {
   display: block;
@@ -154,5 +152,30 @@ input {
 }
 
 }
+
+.box {
+  background-color: #444;
+  color: #fff;
+  height: auto;
+  border-radius: 5px;
+  padding: 20px;
+  font-size: 150%;
+  font-size-adjust: auto;
+  text-align: center;
+  margin-left: 50px;
+  margin-right: auto;
+}
+
+.box:nth-child(even) {
+  background-color: #ccc;
+  color: #000;
+}
+
+  .wrapper {
+        width: 1000px;
+        display: grid;
+        grid-gap: 30px;
+        grid-template-columns: repeat(8, 100px);
+    }
 
 /* recipe list */

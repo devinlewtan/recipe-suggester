@@ -1,17 +1,10 @@
 
 <h1>My Fridge</h1>
-
-  <div class="row">
-    <aside class="col-md-4">
-      <section class="new_user_ingredient_form">
-        <%= render 'user_ingredient_form' %>
-      </section>
-    </aside>
-
- <div class="col-md-8">
+<h2>Not sure what to make? Add ingredients available at home here. These ingredients will help narrow down recipes to pick from!</h2>
       <h3>Ingredients (<%= @user_ingredients.count %>)</h3>
-      <ol class="user_ingredients">
-        <%= render @user_ingredients %>
-      </ol>
-</div>
-</div>
+      <div class="wrapper">
+        <%= render @user_ingredients[0, @user_ingredients.count] %>
+        <div class="box">
+            <%= render 'user_ingredient_form' %>
+      </div>
+      </div>
